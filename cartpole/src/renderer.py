@@ -1,6 +1,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 
+
 class CartPoleRenderer:
     def __init__(self):
         # Enable interactive mode for live updating plots
@@ -8,7 +9,25 @@ class CartPoleRenderer:
         # Create a new figure and axes for rendering
         self.fig, self.ax = plt.subplots()
 
+        # Track if window is closed
+        self.window_closed = False
+
+        # Connect close event
+        self.fig.canvas.mpl_connect("close_event", self.on_close)
+
+    def on_close(self, event):
+        """Handle window close event"""
+        self.window_closed = True
+
+    def is_window_closed(self):
+        """Check if the plot window has been closed"""
+        return self.window_closed
+
     def render(self, state):
+        # Check if window is still open
+        if self.window_closed:
+            return
+
         # Clear the axes for the new frame
         self.ax.clear()
         # Unpack the state: x (cart position), _, theta (pole angle), _
