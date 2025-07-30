@@ -1,7 +1,7 @@
 import numpy as np
 
 
-class SimpleBalanceController:
+class BalanceController:
     """
     An improved balance controller that uses a dead zone and considers both
     pole angle and angular velocity for better balancing behavior.
@@ -110,10 +110,3 @@ class SimpleBalanceController:
                     return 1 - desired_action
 
         return desired_action
-
-    def update(self, state, action, reward, next_state, done):
-        """
-        This controller doesn't learn, so update does nothing.
-        Keeping this method for compatibility with the existing code structure.
-        """
-        pass
