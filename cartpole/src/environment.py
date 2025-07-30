@@ -6,6 +6,7 @@ THETA_THRESHOLD_RADIANS = 20 * 2 * np.pi / 360
 # Position at which to fail the episode
 X_THRESHOLD = 2.4
 
+
 class CartPoleEnv:
     """
     Q-learning environment for CartPole.
@@ -31,12 +32,13 @@ class CartPoleEnv:
         self.state = np.random.uniform(low=-0.05, high=0.05, size=(4,))
         return self.state
 
-    def step(self, action):
+    def step(self, action, external_force=0.0):
         """
         Apply action, update state, and return result.
 
         Args:
             action (int): Action to take (0 or 1).
+            external_force (float): External force to apply (e.g., from mouse interaction).
 
         Returns:
             tuple: (next_state, reward, done)
@@ -44,7 +46,7 @@ class CartPoleEnv:
                 reward (float): Reward for action.
                 done (bool): Whether episode is finished.
         """
-        self.state = compute_next_state(self.state, action)
+        self.state = compute_next_state(self.state, action, external_force)
         # Unpack the state for readability. x = cart position, theta = pole angle
         x, _, theta, _ = self.state
 
@@ -55,5 +57,4 @@ class CartPoleEnv:
             or theta > THETA_THRESHOLD_RADIANS
         )
 
-        reward = 1.0 if not done else 0.0
-        return self.state, reward, done
+        return self.state, done
